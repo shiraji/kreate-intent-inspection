@@ -20,9 +20,11 @@
   -->
 
   <extensions defaultExtensionNs="com.intellij">
-    <projectService serviceImplementation="com.github.shiraji.breakpointsmanager.BreakpointManagerConfig"/>
-    <toolWindow id="Breakpoints Manager" anchor="bottom"
-                factoryClass="com.github.shiraji.breakpointsmanager.BreakpointsToolWindow"/>
+    <localInspection enabledByDefault="true"
+                     groupBundle="messages.InspectionsBundle"
+                     groupPath="Android"
+                     implementationClass="com.github.shiraji.kreateintentinspection.inspection.KreateIntentInspection"
+                     language="JAVA" level="WARNING"/>
   </extensions>
 
   <application-components>
@@ -32,9 +34,6 @@
   </project-components>
 
   <actions>
-    <action id="com.github.shiraji.breakpointsmanager.BreakpointsManagerAction" class="com.github.shiraji.breakpointsmanager.BreakpointsManagerAction" text="Breakpoints! YEA!" >
-      <add-to-group group-id="ToolsMenu" anchor="last"/>
-    </action>
   </actions>
 
 </idea-plugin>
