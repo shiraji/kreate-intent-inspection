@@ -14,6 +14,8 @@ class KreateIntentInspection : BaseJavaLocalInspectionTool() {
 
     override fun getDisplayName() = "Activity should implement $methodName"
 
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = KreateIntentInspectionVisitor(holder, methodName)
+
     override fun createOptionsPanel(): JComponent? {
         val panel = InspectionOptionPanel()
         panel.methodNameTextField.getDocument().addDocumentListener(object : DocumentAdapter() {
