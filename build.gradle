@@ -21,6 +21,7 @@ targetCompatibility = JavaVersion.VERSION_1_6
 intellij {
     version '2016.1.2'
     pluginName 'Activity KreateIntent Inspection'
+    alternativeIdePath '/Applications/Android Studio.app'
 
     updateSinceUntilBuild = false
     sameSinceUntilBuild = false
