@@ -1,6 +1,7 @@
 package com.github.shiraji.kreateintentinspection.inspection
 
 import com.intellij.codeInspection.BaseJavaLocalInspectionTool
+import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.ui.DocumentAdapter
 import javax.swing.JComponent
 import javax.swing.event.DocumentEvent
@@ -18,10 +19,10 @@ class KreateIntentInspection : BaseJavaLocalInspectionTool() {
 
     override fun createOptionsPanel(): JComponent? {
         val panel = InspectionOptionPanel()
-        panel.methodNameTextField.getDocument().addDocumentListener(object : DocumentAdapter() {
+        panel.methodNameTextField.document.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(e: DocumentEvent?) {
                 e ?: return
-                val document = e.getDocument()
+                val document = e.document
                 try {
                     methodName = document.getText(0, document.length)
                 } catch (e1: BadLocationException) {
