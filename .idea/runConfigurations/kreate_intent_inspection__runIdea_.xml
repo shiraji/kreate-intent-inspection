@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="breakpoints-manager [runIdea]" type="GradleRunConfiguration" factoryName="Gradle" singleton="true">
+  <configuration default="false" name="kreate-intent-inspection [runIdea]" type="GradleRunConfiguration" factoryName="Gradle" singleton="true">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
