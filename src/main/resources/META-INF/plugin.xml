@@ -24,7 +24,7 @@
                      groupBundle="messages.InspectionsBundle"
                      groupPath="Android"
                      implementationClass="com.github.shiraji.kreateintentinspection.inspection.KreateIntentInspection"
-                     language="JAVA" level="WARNING"/>
+                     language="kotlin" level="WARNING"/>
   </extensions>
 
   <application-components>
