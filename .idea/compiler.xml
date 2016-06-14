@@ -21,6 +21,8 @@
     <bytecodeTargetLevel>
       <module name="breakpoints-manager_main" target="1.6" />
       <module name="breakpoints-manager_test" target="1.6" />
+      <module name="kreate-intent-inspection_main" target="1.6" />
+      <module name="kreate-intent-inspection_test" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>
