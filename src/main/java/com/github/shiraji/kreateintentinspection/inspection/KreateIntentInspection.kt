@@ -1,13 +1,14 @@
 package com.github.shiraji.kreateintentinspection.inspection
 
-import com.intellij.codeInspection.BaseJavaLocalInspectionTool
+import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.ui.DocumentAdapter
+import org.jetbrains.kotlin.idea.inspections.AbstractKotlinInspection
 import javax.swing.JComponent
 import javax.swing.event.DocumentEvent
 import javax.swing.text.BadLocationException
 
-class KreateIntentInspection : BaseJavaLocalInspectionTool() {
+class KreateIntentInspection : AbstractKotlinInspection() {
 
     var methodName = "createIntent";
 
@@ -15,7 +16,9 @@ class KreateIntentInspection : BaseJavaLocalInspectionTool() {
 
     override fun getDisplayName() = "Activity should implement $methodName"
 
-    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = KreateIntentInspectionVisitor(holder, methodName)
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = KreateIntentInspectionVisitor(holder, methodName)
+
+//    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = KreateIntentInspectionVisitor(holder, methodName)
 
     override fun createOptionsPanel(): JComponent? {
         val panel = InspectionOptionPanel()
