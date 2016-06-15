@@ -1,7 +1,13 @@
 package com.github.shiraji.kreateintentinspection.inspection
 
+import com.github.shiraji.kreateintentinspection.util.InspectionPsiUtil
 import com.intellij.codeInspection.ProblemsHolder
-import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.asJava.KtLightClassForExplicitDeclaration
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtClassBody
+import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.KtVisitorVoid
+import org.jetbrains.kotlin.psi.psiUtil.isAbstract
 
 class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String) : KtVisitorVoid() {
 
@@ -11,22 +17,29 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
     private val CONTENT_FULL_QUALIFIED_NAME = "android.content.Context"
 
     override fun visitClass(klass: KtClass) {
-        System.out.println(klass)
-        System.out.println(klass.getSuperTypeList())
-        klass.parent
+        if (klass.isAbstract()) return
+        val baseClass = InspectionPsiUtil.createPsiClass(QUALIFIED_NAME_OF_SUPER_CLASS, klass.project) ?: return
+        val fqName = klass.fqName ?: return
+        if (!KtLightClassForExplicitDeclaration(fqName, klass).isInheritor(baseClass, true)) return
 
-    }
+        var hasMethod = false
+        klass.getCompanionObjects().forEach {
+            it.children.forEach {
+                if (it is KtClassBody) {
+                    it.children.forEach {
+                        if (it is KtNamedFunction && it.name == name) {
+                            hasMethod = true
+                        }
+                    }
+                }
+            }
+        }
 
-    override fun visitObjectDeclaration(declaration: KtObjectDeclaration) {
-        super.visitObjectDeclaration(declaration)
-    }
-
-    override fun visitDeclaration(dcl: KtDeclaration) {
-        super.visitDeclaration(dcl)
-    }
-
-    override fun visitClassOrObject(classOrObject: KtClassOrObject) {
-        super.visitClassOrObject(classOrObject)
+        if (!hasMethod) {
+            System.out.println("No createIntent!!! Report Issue!!!")
+        } else {
+            System.out.println("Yea! This is good boy.")
+        }
     }
 
 }
