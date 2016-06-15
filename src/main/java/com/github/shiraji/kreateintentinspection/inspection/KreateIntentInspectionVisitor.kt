@@ -4,6 +4,7 @@ import com.github.shiraji.kreateintentinspection.util.InspectionPsiUtil
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.asJava.KtLightClassForExplicitDeclaration
@@ -16,6 +17,7 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
     private val INTENT_CLASS_NAME = "Intent"
     private val INTENT_FULL_QUALIFIED_NAME = "android.content.$INTENT_CLASS_NAME"
     private val CONTENT_FULL_QUALIFIED_NAME = "android.content.Context"
+    var hasCompanionObjects = false
 
     override fun visitClass(klass: KtClass) {
         if (klass.isAbstract()) return
@@ -25,6 +27,7 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
 
         var hasMethod = false
         klass.getCompanionObjects().forEach {
+            hasCompanionObjects = true
             it.children.forEach {
                 if (it is KtClassBody) {
                     it.children.forEach {
@@ -56,14 +59,19 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
             val method = factory.createFunction(
                     """
                     fun $methodName(context: $CONTENT_FULL_QUALIFIED_NAME): $INTENT_FULL_QUALIFIED_NAME {
-                    val intent = Intent(context, ${klass.name} + "::class.java)
+                    val intent = $INTENT_FULL_QUALIFIED_NAME(context, ${klass.name}::class.java)
                     return intent
                     }
                     """.trimMargin()
             )
-            val companionObj = factory.createCompanionObject()
-            companionObj.add(method)
-            klass.add(companionObj)
+//            if (hasCompanionObjects) {
+//            }
+
+            ApplicationManager.getApplication().runWriteAction {
+//                val companionObj = factory.createCompanionObject()
+//                companionObj.addAfter(method, companionObj.getOrCreateBody().lBrace)
+                klass.addAfter(method, klass.getBody()?.lBrace)
+            }
         }
     }
 
