@@ -1,12 +1,13 @@
 package com.github.shiraji.kreateintentinspection.inspection
 
 import com.github.shiraji.kreateintentinspection.util.InspectionPsiUtil
+import com.intellij.codeInspection.LocalQuickFix
+import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.asJava.KtLightClassForExplicitDeclaration
-import org.jetbrains.kotlin.psi.KtClass
-import org.jetbrains.kotlin.psi.KtClassBody
-import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.psi.KtVisitorVoid
+import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.isAbstract
 
 class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String) : KtVisitorVoid() {
@@ -37,8 +38,32 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
 
         if (!hasMethod) {
             System.out.println("No createIntent!!! Report Issue!!!")
+            holder.registerProblem(klass.nameIdentifier as PsiElement,
+                    "Implement fun $name(Context): Intent",
+                    GenerateMethod(name))
+
         } else {
             System.out.println("Yea! This is good boy.")
+        }
+    }
+
+    inner class GenerateMethod(val methodName: String) : LocalQuickFix {
+        override fun getName() = "Implement fun $methodName(Context): Intent"
+        override fun getFamilyName() = name
+        override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+            val factory = KtPsiFactory(project)
+            val klass = descriptor.psiElement.parent as KtClass
+            val method = factory.createFunction(
+                    """
+                    fun $methodName(context: $CONTENT_FULL_QUALIFIED_NAME): $INTENT_FULL_QUALIFIED_NAME {
+                    val intent = Intent(context, ${klass.name} + "::class.java)
+                    return intent
+                    }
+                    """.trimMargin()
+            )
+            val companionObj = factory.createCompanionObject()
+            companionObj.add(method)
+            klass.add(companionObj)
         }
     }
 
