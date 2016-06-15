@@ -56,6 +56,7 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val factory = KtPsiFactory(project)
             val klass = descriptor.psiElement.parent as KtClass
+
             val method = factory.createFunction(
                     """
                     fun $methodName(context: $CONTENT_FULL_QUALIFIED_NAME): $INTENT_FULL_QUALIFIED_NAME {
@@ -70,7 +71,8 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
             ApplicationManager.getApplication().runWriteAction {
 //                val companionObj = factory.createCompanionObject()
 //                companionObj.addAfter(method, companionObj.getOrCreateBody().lBrace)
-                klass.addAfter(method, klass.getBody()?.lBrace)
+
+                klass.declarations[0].add(method)
             }
         }
     }
