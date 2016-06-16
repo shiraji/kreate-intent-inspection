@@ -11,6 +11,8 @@ companion object {
 }
 ```
 
+![screenshot](website/images/kreate.gif)
+
 This plugin is for developing Android in Kotlin. If you want to have Java version of the inspection, please use [Activity createIntent Inspection](https://plugins.jetbrains.com/plugin/7915)
 
 ## Settings
