@@ -18,7 +18,6 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
     private val INTENT_CLASS_NAME = "Intent"
     private val INTENT_FULL_QUALIFIED_NAME = "android.content.$INTENT_CLASS_NAME"
     private val CONTENT_FULL_QUALIFIED_NAME = "android.content.Context"
-    var hasCompanionObjects = false
 
     override fun visitClass(klass: KtClass) {
         if (klass.isAbstract()) return
@@ -28,7 +27,6 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
 
         var hasMethod = false
         klass.getCompanionObjects().forEach {
-            hasCompanionObjects = true
             it.children.forEach {
                 if (it is KtClassBody) {
                     it.children.forEach {
@@ -41,13 +39,9 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
         }
 
         if (!hasMethod) {
-            System.out.println("No createIntent!!! Report Issue!!!")
             holder.registerProblem(klass.nameIdentifier as PsiElement,
                     "Implement fun $name(Context): Intent",
                     GenerateMethod(name))
-
-        } else {
-            System.out.println("Yea! This is good boy.")
         }
     }
 
