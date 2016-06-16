@@ -1,0 +1,20 @@
+language: java
+env:
+  matrix:
+  - IDEA_VERSION=IC-15.0.4
+  - IDEA_VERSION=LATEST-EAP-SNAPSHOT
+  global:
+  - secure: nIeCk9GBaLjZFUpwKG54i1zfqoUMJQxrrv2AqlPg3eh3dO0y+B00cyEaY6KUnwNTKlp2LBkmz07d7hvxhWlHeZ8r/d2a17vOaF8HhQ5nzc3qS189v7sXnLs57jAmcNLdYPiGyJNjO8FvWQu33u9F/ZYTxOfa3n8cBetfa47+xMSlWBfhuDObaCulbUtRQZRZa78ALgsVEBFYrvNscvBj/8zMjnTJ66ciCuw6/Hlmf21wv+o+437wG7E2qm3kLfhtb46aqtuCHAeBk/qZ/6z7i7kwPLgPtpXqpdmbJalVuUigZSKMJKAgPxrdSCEy33HD3G6xQ5btOHMW8N+XibDBwk8KhE/ibx5zrig2w3XDeNEOMFF7XVQf45Ybn0JEVjdOopWOIxZylKQIaBO/c9+N0sbAmxcEYeJMQjx9i4wfz6RYVGcNx60gE7womJErr0RnHFLBTjLOZa0ngHE9bHIG6PVEi9ZNe70PgEuXeVoXSx2Lq5KbAEQ40WJwP4A4bOMZ31SefTQBbQPEdGZluLCYYNNGAL63+TPGlOY3jEpa1eTIOmxqVbvkeHByVYQ0dn1SZb+nEphf/DST7k+eqTBe4bv+XIhSDtaWOBRCERKJwaS92QxW0ijProfA8pq+jfANfRQUJlO0xOxLVKqRFxJkdN8Lj2KRbvtykyatogII11k=
+jdk:
+- oraclejdk7
+- oraclejdk8
+script:
+- ./gradlew test -PideaVersion=$IDEA_VERSION
+notifications:
+  email: false
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.gradle
+after_success:
+- .travis/after_success.sh
