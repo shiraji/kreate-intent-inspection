@@ -40,7 +40,7 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
 
         if (!hasMethod) {
             holder.registerProblem(klass.nameIdentifier as PsiElement,
-                    "Implement fun $name(Context): Intent",
+                    "Implement \"fun $name(Context): Intent\" inside companion object",
                     GenerateMethod(name))
         }
     }

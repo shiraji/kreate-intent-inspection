@@ -14,7 +14,7 @@ class KreateIntentInspection : AbstractKotlinInspection() {
 
     override fun getGroupDisplayName() = "Android"
 
-    override fun getDisplayName() = "Activity should implement $methodName"
+    override fun getDisplayName() = "Activity should implement $methodName (Kotlin)"
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = KreateIntentInspectionVisitor(holder, methodName)
 
