@@ -18,8 +18,6 @@ class KreateIntentInspection : AbstractKotlinInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = KreateIntentInspectionVisitor(holder, methodName)
 
-//    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = KreateIntentInspectionVisitor(holder, methodName)
-
     override fun createOptionsPanel(): JComponent? {
         val panel = InspectionOptionPanel()
         panel.methodNameTextField.document.addDocumentListener(object : DocumentAdapter() {
