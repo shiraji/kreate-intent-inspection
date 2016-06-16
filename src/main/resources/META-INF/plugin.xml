@@ -5,7 +5,7 @@
 
   <description><![CDATA[
         This plugin add a custom inspection that checks Activity implements a companion object method that creates its Intent.
-        If Activity is abstract, it won't warn to implement the method.
+        If Activity is abstract, it won't warn to implement the method. This plugin is for Kotlin. For Java user, please use "Activity createIntent Inspection".
     ]]></description>
 
   <change-notes><![CDATA[
