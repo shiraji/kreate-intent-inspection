@@ -1,12 +1,18 @@
 <idea-plugin version="2">
-  <id>com.github.shiraji.breakpointsmanager</id>
-  <name>Breakpoints Manager</name>
+  <id>com.github.shiraji.kreateintentinspection</id>
+  <name>Activity KreateIntent plugin</name>
   <vendor email="isogai.shiraji@gmail.com" url="https://github.com/shiraji">Shiraji</vendor>
 
   <description><![CDATA[
+        This plugin add a custom inspection that checks Activity implements a companion object method that creates its Intent.
+        If Activity is abstract, it won't warn to implement the method.
     ]]></description>
 
   <change-notes><![CDATA[
+        <p>1.0.0</p>
+        <ul>
+            <li>Initial release</li>
+        </ul>
     ]]>
   </change-notes>
 
