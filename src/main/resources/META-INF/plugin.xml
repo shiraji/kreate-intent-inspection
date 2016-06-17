@@ -9,6 +9,10 @@
     ]]></description>
 
   <change-notes><![CDATA[
+        <p>1.0.1</p>
+        <ul>
+            <li>Change plugin name</li>
+        </ul>
         <p>1.0.0</p>
         <ul>
             <li>Initial release</li>
