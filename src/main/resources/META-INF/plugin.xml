@@ -1,6 +1,6 @@
 <idea-plugin version="2">
   <id>com.github.shiraji.kreateintentinspection</id>
-  <name>Activity kreateIntent plugin</name>
+  <name>Activity kreateIntent Inspection</name>
   <vendor email="isogai.shiraji@gmail.com" url="https://github.com/shiraji">Shiraji</vendor>
 
   <description><![CDATA[
