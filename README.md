@@ -1,5 +1,7 @@
 # Activity kreateIntent Inspection
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Activity%20kreateIntent%20Inspection-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3791)
+
 This plugin add an inspection that check if Activity implements following method.
 
 ```MainActivity.kt
