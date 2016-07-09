@@ -9,6 +9,10 @@
     ]]></description>
 
   <change-notes><![CDATA[
+        <p>1.0.2</p>
+        <ul>
+            <li>Fix the problem with kotlin-plugin 1.0.3 (#2)</li>
+        </ul>
         <p>1.0.1</p>
         <ul>
             <li>Change plugin name</li>
