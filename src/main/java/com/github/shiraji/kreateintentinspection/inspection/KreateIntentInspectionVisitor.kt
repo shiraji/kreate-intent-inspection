@@ -4,11 +4,11 @@ import com.github.shiraji.kreateintentinspection.util.InspectionPsiUtil
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.asJava.KtLightClassForExplicitDeclaration
 import org.jetbrains.kotlin.idea.core.getOrCreateCompanionObject
-import org.jetbrains.kotlin.idea.quickfix.insertMembersAfter
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.isAbstract
 
@@ -61,11 +61,11 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
                     """.trimMargin()
             )
 
-            insertMembersAfter(null,
-                    klass.getOrCreateCompanionObject(),
-                    listOf(method),
-                    klass.getOrCreateCompanionObject().getOrCreateBody().lBrace)
+            runWriteAction {
+                klass.getOrCreateCompanionObject().getOrCreateBody().addAfter(method, klass.getOrCreateCompanionObject().getOrCreateBody().lBrace)
+            }
         }
     }
+
 
 }
