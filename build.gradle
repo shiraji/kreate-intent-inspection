@@ -34,7 +34,7 @@ intellij {
 }
 
 group 'com.github.shiraji.kreateintentinspection'
-version '1.0.2'
+version '1.0.3-SNAPSHOT'
 
 repositories {
     mavenCentral()
