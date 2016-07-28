@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.asJava.KtLightClassForExplicitDeclaration
 import org.jetbrains.kotlin.idea.core.getOrCreateCompanionObject
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.isAbstract
+import org.jetbrains.kotlin.resolve.ImportPath
 
 class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String) : KtVisitorVoid() {
 
@@ -65,10 +66,18 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
             )
 
             runWriteAction {
+                addImport(CONTEXT_FULL_QUALIFIED_NAME, factory, klass.containingFile as? KtFile)
+                addImport(INTENT_FULL_QUALIFIED_NAME, factory, klass.containingFile as? KtFile)
                 klass.getOrCreateCompanionObject().getOrCreateBody().addAfter(method, klass.getOrCreateCompanionObject().getOrCreateBody().lBrace)
             }
         }
+
+        private fun addImport(importPath: String, factory: KtPsiFactory, file: KtFile?) {
+            file ?: return
+            val importDirective = factory.createImportDirective(ImportPath(importPath))
+            if (file.importDirectives.none { it.importPath == importDirective.importPath }) {
+                file.importList?.add(importDirective)
+            }
+        }
     }
-
-
 }
