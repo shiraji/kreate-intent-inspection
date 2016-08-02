@@ -14,10 +14,13 @@ import org.jetbrains.kotlin.psi.psiUtil.isAbstract
 
 class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String) : KtVisitorVoid() {
 
-    private val QUALIFIED_NAME_OF_SUPER_CLASS = "android.app.Activity"
-    private val INTENT_CLASS_NAME = "Intent"
-    private val INTENT_FULL_QUALIFIED_NAME = "android.content.$INTENT_CLASS_NAME"
-    private val CONTENT_FULL_QUALIFIED_NAME = "android.content.Context"
+    companion object {
+        private const val QUALIFIED_NAME_OF_SUPER_CLASS = "android.app.Activity"
+        private const val INTENT_CLASS_NAME = "Intent"
+        private const val INTENT_FULL_QUALIFIED_NAME = "android.content.$INTENT_CLASS_NAME"
+        private const val CONTEXT_CLASS_NAME = "Context"
+        private const val CONTEXT_FULL_QUALIFIED_NAME = "android.content.$CONTEXT_CLASS_NAME"
+    }
 
     override fun visitClass(klass: KtClass) {
         if (klass.isAbstract()) return
