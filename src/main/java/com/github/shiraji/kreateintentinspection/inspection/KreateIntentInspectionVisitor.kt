@@ -11,13 +11,17 @@ import org.jetbrains.kotlin.asJava.KtLightClassForExplicitDeclaration
 import org.jetbrains.kotlin.idea.core.getOrCreateCompanionObject
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.isAbstract
+import org.jetbrains.kotlin.resolve.ImportPath
 
 class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String) : KtVisitorVoid() {
 
-    private val QUALIFIED_NAME_OF_SUPER_CLASS = "android.app.Activity"
-    private val INTENT_CLASS_NAME = "Intent"
-    private val INTENT_FULL_QUALIFIED_NAME = "android.content.$INTENT_CLASS_NAME"
-    private val CONTENT_FULL_QUALIFIED_NAME = "android.content.Context"
+    companion object {
+        private const val QUALIFIED_NAME_OF_SUPER_CLASS = "android.app.Activity"
+        private const val INTENT_CLASS_NAME = "Intent"
+        private const val INTENT_FULL_QUALIFIED_NAME = "android.content.$INTENT_CLASS_NAME"
+        private const val CONTEXT_CLASS_NAME = "Context"
+        private const val CONTEXT_FULL_QUALIFIED_NAME = "android.content.$CONTEXT_CLASS_NAME"
+    }
 
     override fun visitClass(klass: KtClass) {
         if (klass.isAbstract()) return
@@ -54,18 +58,26 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
 
             val method = factory.createFunction(
                     """
-                    fun $methodName(context: $CONTENT_FULL_QUALIFIED_NAME): $INTENT_FULL_QUALIFIED_NAME {
-                    val intent = $INTENT_FULL_QUALIFIED_NAME(context, ${klass.name}::class.java)
+                    fun $methodName(context: $CONTEXT_CLASS_NAME): $INTENT_CLASS_NAME {
+                    val intent = $INTENT_CLASS_NAME(context, ${klass.name}::class.java)
                     return intent
                     }
                     """.trimMargin()
             )
 
             runWriteAction {
+                addImport(CONTEXT_FULL_QUALIFIED_NAME, factory, klass.containingFile as? KtFile)
+                addImport(INTENT_FULL_QUALIFIED_NAME, factory, klass.containingFile as? KtFile)
                 klass.getOrCreateCompanionObject().getOrCreateBody().addAfter(method, klass.getOrCreateCompanionObject().getOrCreateBody().lBrace)
             }
         }
+
+        private fun addImport(importPath: String, factory: KtPsiFactory, file: KtFile?) {
+            file ?: return
+            val importDirective = factory.createImportDirective(ImportPath(importPath))
+            if (file.importDirectives.none { it.importPath == importDirective.importPath }) {
+                file.importList?.add(importDirective)
+            }
+        }
     }
-
-
 }
