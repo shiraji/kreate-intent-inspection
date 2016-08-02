@@ -58,10 +58,8 @@ class KreateIntentInspectionVisitor(val holder: ProblemsHolder, val name: String
 
             val method = factory.createFunction(
                     """
-                    fun $methodName(context: $CONTEXT_CLASS_NAME): $INTENT_CLASS_NAME {
-                    val intent = $INTENT_CLASS_NAME(context, ${klass.name}::class.java)
-                    return intent
-                    }
+                    |fun $methodName(context: $CONTEXT_CLASS_NAME) = $INTENT_CLASS_NAME(context, ${klass.name}::class.java).apply {
+                    |}
                     """.trimMargin()
             )
 
