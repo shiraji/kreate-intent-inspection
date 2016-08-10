@@ -6,9 +6,7 @@ This plugin add an inspection that check if Activity implements following method
 
 ```MainActivity.kt
 companion object {
-    fun createIntent(context: Context): Intent {
-        val intent = Intent(context, LoginActivity::class.java)
-        return intent
+    fun createIntent(context: Context) = Intent(context, LoginActivity::class.java).apply {
     }
 }
 ```
