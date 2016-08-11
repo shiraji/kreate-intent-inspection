@@ -9,6 +9,11 @@
     ]]></description>
 
   <change-notes><![CDATA[
+        <p>1.1.0</p>
+        <ul>
+            <li>Change generated code format (#6)</li>
+            <li>Fix the problem with import statements (#4)</li>
+        </ul>
         <p>1.0.2</p>
         <ul>
             <li>Fix the problem with kotlin-plugin 1.0.3 (#2)</li>
